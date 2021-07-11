@@ -1,25 +1,23 @@
 import React from "react";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
-import AuthContainer from "./components/AuthContainer";
-import RegistrationContainer from "./components/RegistrationContainer";
-import rootReducer from "./store/reducers";
+import { applyMiddleware, createStore } from "redux";
+import logger from "redux-logger";
+import createSagaMiddleware from "@redux-saga/core";
 
-const store = createStore(rootReducer);
+import { Connected } from "./Connected";
+import { reducer } from "./reducers";
+import { watchLoadData } from "./sagas";
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <div className="wrapper">
-          <h1>Complex State</h1>
+const App = () => {
+  const sagaMiddleware = createSagaMiddleware();
+  const store = createStore(reducer, applyMiddleware(logger, sagaMiddleware));
+  sagaMiddleware.run(watchLoadData);
 
-          <div className="forms">
-            <AuthContainer />
-            <RegistrationContainer />
-          </div>
-        </div>
-      </Provider>
-    );
-  }
-}
+  return (
+    <Provider store={store}>
+      <Connected />
+    </Provider>
+  );
+};
+
+export default App;
