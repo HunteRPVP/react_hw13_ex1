@@ -3,21 +3,8 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { Provider } from "react-redux";
-import { createStore } from "redux";
-import { rootReducer } from "./store/reducers";
 
-export const ACTION_CHANGE_FIRST_NAME = "ACTION_CHANGE_FIRST_NAME";
-export const ACTION_CHANGE_SECOND_NAME = "ACTION_CHANGE_SECOND_NAME";
-
-const store = createStore(rootReducer);
-
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById("root")
-);
+ReactDOM.render(<App />, document.getElementById("root"));
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
